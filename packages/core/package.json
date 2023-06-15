@@ -1,0 +1,44 @@
+{
+  "name": "@v-layers/core",
+  "description": "",
+  "version": "0.0.1",
+  "type": "module",
+  "packageManager": "pnpm@8.6.2",
+  "author": "enpitsulin <enpitsulin@gmail.com>",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "keywords": [
+    "vue",
+    "ol",
+    "openlayers"
+  ],
+  "peerDependencies": {
+    "ol": ">=7.0.0",
+    "vue": ">=3.3"
+  },
+  "devDependencies": {
+    "ol": "^7.4.0",
+    "typescript": "^5.1.3",
+    "unbuild": "^1.2.1",
+    "vitest": "^0.32.0",
+    "vue": "^3.3.4"
+  },
+  "dependencies": {
+    "@vue/runtime-core": "^3.3.4"
+  }
+}
