@@ -2,7 +2,7 @@
 
 import { DefineComponent } from "@vue/runtime-core";
 import { type Options as CollectionOption } from 'ol/Collection';
-import { AllLayer, AllSource } from "./types";
+import { AllLayer, AllSource } from "../types";
 
 export const Layer = new Proxy({} as AllLayer, {
   get(_target, p) {
