@@ -4,8 +4,9 @@ import { option } from './option'
 import * as Layer from 'ol/layer'
 import * as Source from 'ol/source'
 import * as Geom from 'ol/geom'
+import { Collection } from 'ol'
 
-export const { createApp } = createRenderer(option)
+export const { createApp, render } = createRenderer(option)
 
 export const createVLayers = (slots: Slots) => {
   const app = createApp(internalFnComponent)
@@ -18,7 +19,10 @@ export const createVLayers = (slots: Slots) => {
 extend({
   Layer,
   Source,
-  Geom
+  Geom,
+  Collection
 })
 
 export default { createVLayers, extend }
+export * from '@vue/runtime-core'
+export * from './components'

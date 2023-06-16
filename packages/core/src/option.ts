@@ -6,6 +6,7 @@ import Source from 'ol/source/Source'
 import { catalogue } from './catalogue'
 import type { BaseObjectConstructor, OlBaseObject } from './types'
 import { isHTMLTag, isInstanceof } from './utils'
+import { Collection } from 'ol'
 
 let map: Map | null = null
 
@@ -40,6 +41,9 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
     }
     if (isInstanceof(parent, Layer) && isInstanceof(el, Source)) {
       parent.setSource(el)
+    }
+    if (isInstanceof(parent, Collection)) {
+      parent.push(el)
     }
 
 
