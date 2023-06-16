@@ -28,14 +28,14 @@ export type AllLayerName = keyof typeof layers
 
 export type LayerProps<Name extends AllLayerName> = ConstructorParameters<typeof layers[Name]>[0]
 
-export type AllLayer = { [Name in AllLayerName]: DefineComponent<NonNullable<LayerProps<Name>>> }
+export type AllLayer = { [Name in AllLayerName]: DefineComponent<NonNullable<LayerProps<Name>> & { passRef?: (el: InstanceType<typeof layers[Name]>) => void }> }
 
 
 export type AllSourceName = keyof Omit<typeof source, 'sourcesFromTileGrid'>
 
 export type SourceProps<Name extends AllSourceName> = ConstructorParameters<typeof source[Name]>[0]
 
-export type AllSource = { [Name in AllSourceName]: DefineComponent<NonNullable<SourceProps<Name>>> }
+export type AllSource = { [Name in AllSourceName]: DefineComponent<NonNullable<SourceProps<Name>> & { passRef?: (el: InstanceType<typeof source[Name]>) => void }> }
 
 
 

@@ -1,18 +1,31 @@
 /// TODO(enpitsulin): exact to another package
 
-import { SlotsType, defineComponent, h } from "vue";
+import { SlotsType, defineComponent, h, ref, watchPostEffect } from "@vue/runtime-core";
+import { type Options } from 'ol/Collection';
 import { AllLayer, AllSource } from "./types";
-import { type Options } from 'ol/Collection'
 
 const layerGetter = (p: string | symbol) => {
   return defineComponent({
     inheritAttrs: true,
+    props: ['passRef'],
     slots: {} as SlotsType<{
       default(): any;
       source(): any
     }>,
-    setup(_, { attrs, slots }) {
-      return () => h(`OlLayer.${p.toString()}`, attrs, slots.default?.())
+    setup(props, { attrs, slots }) {
+      const instance = ref()
+      watchPostEffect(() => {
+        if (!instance.value) return
+        props.passRef?.(instance.value, {})
+      })
+      return () => h(
+        `OlLayer.${p.toString()}`,
+        {
+          ...attrs,
+          ref: instance
+        },
+        slots.default?.()
+      )
     }
   })
 }
