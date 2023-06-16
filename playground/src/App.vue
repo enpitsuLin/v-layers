@@ -12,14 +12,13 @@ const VectorLayerRef = ref<VectorLayer<VectorSource>>()
 
 watchPostEffect(() => {
   console.log(VectorLayerRef.value);
-
 })
 </script>
 
 <template>
   <div style="height:300px;width:400px">
     <Map ref="mapRef">
-      <Layer.Vector :passRef="(el) => VectorLayerRef = el" background="#1a2b39" :updateWhileAnimating="true">
+      <Layer.Vector ref="VectorLayerRef" background="#1a2b39" :updateWhileAnimating="true">
         <Source.Vector url="https://openlayers.org/data/vector/ecoregions.json" :format="new GeoJSON()"></Source.Vector>
       </Layer.Vector>
     </Map>
