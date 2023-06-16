@@ -1,4 +1,4 @@
-/// TODO(enpitsulin): exact to another package
+/// TODO(enpitsulin): extract to another package
 
 import { DefineComponent, resolveComponent } from "@vue/runtime-core";
 import { type Options as CollectionOption } from 'ol/Collection';
