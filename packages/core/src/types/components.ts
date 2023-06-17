@@ -1,8 +1,8 @@
+import type * as geom from 'ol/geom'
 import type * as layers from 'ol/layer'
 import type * as source from 'ol/source'
-import type * as geom from 'ol/geom'
-import type { ObjectProps } from './utils'
 import { DefineComponent } from "vue"
+import type { ObjectProps, AviableProps } from './utils'
 
 export type AllLayerName = keyof typeof layers
 
@@ -21,4 +21,5 @@ export type AllGeomName = keyof typeof geom
 
 export type GeomProps<Name extends AllGeomName> = ConstructorParameters<typeof geom[Name]>
 
-export type AllGeom = { [Name in AllGeomName]: DefineComponent<{ args: GeomProps<Name> }> }
+export type AllGeom = { [Name in AllGeomName]: DefineComponent<AviableProps<{ args: GeomProps<Name>['length'] extends 0 ? never : GeomProps<Name> }>> }
+
