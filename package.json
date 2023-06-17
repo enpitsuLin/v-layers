@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":"pnpm --filter=@v-layers/* run build",
-    "play":"pnpm -C=playground dev"
+    "build": "pnpm --filter=@v-layers/* run build",
+    "play": "pnpm -C=playground dev"
   },
   "keywords": [],
   "author": "",
