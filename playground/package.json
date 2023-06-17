@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@antfu/eslint-config": "^0.39.5",
     "@v-layers/core": "workspace:^",
+    "eslint": "^8.43.0",
     "ol": "^7.4.0",
     "vue": "^3.2.47"
   },
