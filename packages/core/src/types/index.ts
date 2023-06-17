@@ -8,4 +8,3 @@ export interface OlCatalogue {
 export type OlBaseObject = BaseObject & { [props: string]: any }
 
 export * from './utils'
-export * from './components'

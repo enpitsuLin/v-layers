@@ -3,7 +3,7 @@ import type * as layers from 'ol/layer'
 import type * as source from 'ol/source'
 import type { DefineComponent } from 'vue'
 import type { Observable } from 'ol'
-import type { AviableProps, ObjectProps } from './utils'
+import type { AviableProps, ObjectProps } from '@v-layers/core'
 
 type ObservableEvents<T extends Observable> = {
   [Name in `on${Capitalize<Parameters<T['on']>[0][number]>}`]?: Function

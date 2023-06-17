@@ -26,4 +26,4 @@ extend({
 
 export default { createVLayers, extend }
 export * from '@vue/runtime-core'
-export * from './components'
+export * from './types'

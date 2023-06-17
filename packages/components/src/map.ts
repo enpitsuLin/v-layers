@@ -1,6 +1,6 @@
 import { Map as OlMap } from 'ol'
-import { defineComponent, h, ref, shallowRef, watch, watchPostEffect } from 'vue'
-import { createVLayers } from '../'
+import { defineComponent, h, ref, shallowRef, watch, watchPostEffect } from '@vue/runtime-core'
+import { createVLayers } from '@v-layers/core'
 
 type MapChildOptions = 'target' | 'layers' | 'controls' | 'interactions' | 'overlays'
 
