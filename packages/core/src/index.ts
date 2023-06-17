@@ -4,7 +4,7 @@ import { option } from './option'
 import * as Layer from 'ol/layer'
 import * as Source from 'ol/source'
 import * as Geom from 'ol/geom'
-import { Collection } from 'ol'
+import { Collection, Feature } from 'ol'
 
 export const { createApp, render } = createRenderer(option)
 
@@ -20,7 +20,8 @@ extend({
   Layer,
   Source,
   Geom,
-  Collection
+  Collection,
+  Feature
 })
 
 export default { createVLayers, extend }

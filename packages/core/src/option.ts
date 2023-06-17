@@ -6,15 +6,19 @@ import Source from 'ol/source/Source'
 import { catalogue } from './catalogue'
 import type { BaseObjectConstructor, OlBaseObject } from './types'
 import { isHTMLTag, isInstanceof } from './utils'
-import { Collection } from 'ol'
+import { Collection, Feature } from 'ol'
+import VectorSource from 'ol/source/Vector'
+import { Geometry } from 'ol/geom'
 
 let map: Map | null = null
 
 export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> = {
   createElement(type, _isSVG, _isCustomizedBuiltIn, props) {
     if (!props) props = {}
-
-    console.log('createElement', { type, props });
+    let args = [props]
+    if (props.args) {
+      args = Array.from(props.args)
+    }
 
     if (type === 'template') return null
     if (isHTMLTag(type)) return null
@@ -27,12 +31,12 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
       // TODO(enpitsulin): error logger
       throw new Error(`${name} is undefined`)
     }
-    instance = Reflect.construct(target, [props])
+
+    instance = Reflect.construct(target, args)
     return instance
   },
   insert(el, parent, anchor) {
     if (!el || !parent) return
-    console.log('insert', { el, parent, anchor });
     if (isInstanceof(parent, Map) && !map) {
       map = parent as unknown as Map
     }
@@ -45,23 +49,30 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
     if (isInstanceof(parent, Collection)) {
       parent.push(el)
     }
-
-
+    if (isInstanceof(parent, VectorSource) && isInstanceof(el, Feature)) {
+      parent.addFeature(el)
+    }
+    if (isInstanceof(parent, Feature) && isInstanceof(el, Geometry)) {
+      parent.setGeometry(el)
+    }
   },
   remove(el) {
     if (!el) return
   },
   patchProp(el, prop, prevValue, nextValue) {
-    if (el) {
-      console.log('patchProp', { el, prop, prevValue, nextValue });
-      const getProperty = `get${prop.replace(/^\S/, s => s.toUpperCase())}`
-      const property = `set${prop.replace(/^\S/, s => s.toUpperCase())}`
-      if (getProperty in el) {
-        if (el[getProperty]() === nextValue && property in el) {
-          el[property](nextValue)
+    if (prop === 'args') return
+    if (el && prevValue !== nextValue) {
+      const propSetter = `set${prop.replace(/^\S/, s => s.toUpperCase())}`
+
+      if (Reflect.has(el, propSetter)) {
+        el[propSetter](nextValue)
+      } else if (Reflect.has(el, `${prop}_`)) {
+        console.log(prop + ' is private:', { private: el[`${prop}_`], el, nextValue });
+        if (el[`${prop}_`] !== nextValue) {
+          el[`${prop}_`] = nextValue
         }
-      } else if (property in el) {
-        el[property](nextValue)
+      } else {
+        console.error('cant\'t patch prop' + prop)
       }
     }
   },
@@ -83,8 +94,10 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
   setElementText() {
     throw new Error('didn\'t implemented')
   },
-  nextSibling() {
-    throw new Error('didn\'t implemented')
+  nextSibling(node) {
+    console.log(node);
+    return node
+    // throw new Error('didn\'t implemented')
   },
 
   querySelector() {
