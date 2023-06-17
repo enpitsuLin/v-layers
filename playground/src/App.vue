@@ -4,11 +4,12 @@ import { View } from 'ol'
 import type { FeatureUrlFunction } from 'ol/featureloader'
 import EsriJSON from 'ol/format/EsriJSON'
 import { tile as tileStrategy } from 'ol/loadingstrategy'
-import 'ol/ol.css'
 import { fromLonLat } from 'ol/proj'
 import { Fill, Stroke, Style } from 'ol/style'
 import type { StyleFunction } from 'ol/style/Style'
 import { createXYZ } from 'ol/tilegrid'
+
+import 'ol/ol.css'
 
 const defaultView = new View({
   center: fromLonLat([1.72, 52.4]),
