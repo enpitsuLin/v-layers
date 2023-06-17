@@ -10,9 +10,15 @@ importers:
 
   packages/core:
     dependencies:
+      '@antfu/eslint-config':
+        specifier: ^0.39.5
+        version: 0.39.5(eslint@8.43.0)(typescript@5.1.3)
       '@vue/runtime-core':
         specifier: ^3.3.4
         version: 3.3.4
+      eslint:
+        specifier: ^8.43.0
+        version: 8.43.0
     devDependencies:
       ol:
         specifier: ^7.4.0
