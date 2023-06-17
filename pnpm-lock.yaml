@@ -19,6 +19,9 @@ importers:
       ol:
         specifier: ^7.4.0
         version: 7.4.0
+      vue:
+        specifier: '>=3.3'
+        version: 3.3.4
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^0.39.5
