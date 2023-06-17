@@ -1,7 +1,7 @@
 import type * as geom from 'ol/geom'
 import type * as layers from 'ol/layer'
 import type * as source from 'ol/source'
-import type { DefineComponent } from 'vue'
+import type { DefineComponent } from '@vue/runtime-core'
 import type { Observable } from 'ol'
 import type { AviableProps, ObjectProps } from '@v-layers/core'
 

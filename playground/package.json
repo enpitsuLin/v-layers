@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^0.39.5",
-    "@v-layers/core": "workspace:^",
+    "@v-layers/components": "workspace:^",
     "eslint": "^8.43.0",
     "ol": "^7.4.0",
     "vue": "^3.3.4"

@@ -1,6 +1,6 @@
-import type { DefineComponent } from 'vue'
+import type { DefineComponent } from '@vue/runtime-core'
 import { type Options as CollectionOptions } from 'ol/Collection'
-import type { AllGeom, AllLayer, AllSource } from '@v-layers/core'
+import type { AllGeom, AllLayer, AllSource } from './type'
 
 export const Layer = new Proxy({} as AllLayer, {
   get(_target, p) {

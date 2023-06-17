@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Layer, Map, Source } from '@v-layers/core'
+import { Layer, Map, Source } from '@v-layers/components'
 import { View } from 'ol'
 import type { FeatureUrlFunction } from 'ol/featureloader'
 import EsriJSON from 'ol/format/EsriJSON'
