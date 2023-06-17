@@ -28,6 +28,10 @@
     "build": "unbuild",
     "stub": "unbuild --stub"
   },
+  "peerDependencies": {
+    "ol": ">=7.4.0",
+    "vue": ">=3.3"
+  },
   "dependencies": {
     "@v-layers/core": "workspace:^",
     "@vue/runtime-core": "^3.3.4",

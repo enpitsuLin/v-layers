@@ -29,7 +29,7 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "ol": ">=7.0.0",
+    "ol": ">=7.4.0",
     "vue": ">=3.3"
   },
   "dependencies": {
