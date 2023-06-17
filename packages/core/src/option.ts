@@ -31,8 +31,8 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
       // TODO(enpitsulin): error logger
       throw new Error(`${name} is undefined`)
     }
-
-    return Reflect.construct(target, args)
+    const instance = Reflect.construct(target, args)
+    return instance
   },
   insert(el, parent, anchor) {
     if (!el || !parent)
@@ -72,8 +72,14 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
         if (el[`${prop}_`] !== nextValue)
           el[`${prop}_`] = nextValue
       }
+      else if (prop.match(/^on\S/)) {
+        if (!el.hasListener(nextValue)) {
+          const eventType = prop.replace(/^on(\S)(.+)$/, (_, $1, $2) => $1.toLowerCase() + $2)
+          el.on(eventType as any, nextValue)
+        }
+      }
       else {
-        console.error(`cant't patch prop${prop}`)
+        console.error(`cant't patch prop ${prop}`)
       }
     }
   },

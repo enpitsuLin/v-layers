@@ -2,13 +2,18 @@ import type * as geom from 'ol/geom'
 import type * as layers from 'ol/layer'
 import type * as source from 'ol/source'
 import type { DefineComponent } from 'vue'
+import type Layer from 'ol/layer/Base'
 import type { AviableProps, ObjectProps } from './utils'
 
 export type AllLayerName = keyof typeof layers
 
-export type LayerProps<Name extends AllLayerName> = ObjectProps<Name, typeof layers>
+export type LayerProps<Name extends AllLayerName> = ObjectProps<Name, typeof layers> & LayerEvent<(typeof layers[Name])['prototype']>
 
-export type AllLayer = { [Name in AllLayerName]: DefineComponent<NonNullable<LayerProps<Name>>> }
+type LayerEvent<T extends Layer> = { [Name in `on${Capitalize<Parameters<T['on']>[0][number]>}`]?: Function }
+
+export type AllLayer = {
+  [Name in AllLayerName]: DefineComponent<NonNullable<LayerProps<Name>>>
+}
 
 export type AllSourceName = keyof Omit<typeof source, 'sourcesFromTileGrid'>
 
