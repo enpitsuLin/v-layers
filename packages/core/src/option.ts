@@ -1,11 +1,12 @@
 import type { RendererOptions } from '@vue/runtime-core'
+import { Collection, Feature } from 'ol'
 import Map from 'ol/Map'
+import { Geometry } from 'ol/geom'
 import BaseLayer from 'ol/layer/Base'
 import Layer from 'ol/layer/Layer'
 import Source from 'ol/source/Source'
-import { Collection, Feature } from 'ol'
 import VectorSource from 'ol/source/Vector'
-import { Geometry } from 'ol/geom'
+import LayerGroup from 'ol/layer/Group'
 import { catalogue } from './catalogue'
 import type { BaseObjectConstructor, OlBaseObject } from './types'
 import { isHTMLTag, isInstanceof } from './utils'
@@ -45,6 +46,9 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
 
     if (isInstanceof(parent, Layer) && isInstanceof(el, Source))
       parent.setSource(el)
+
+    if (isInstanceof(parent, LayerGroup) && isInstanceof(el, Layer))
+      parent.getLayers().push(el)
 
     if (isInstanceof(parent, Collection))
       parent.push(el)
