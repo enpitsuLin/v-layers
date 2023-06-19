@@ -13,7 +13,7 @@ export const VMap = defineComponent<MapProps, { map: OlMap }>({
     'moveTolerance',
     'pixelRatio',
     'view',
-    'control',
+    'controls',
   ] as unknown as undefined,
   setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()
