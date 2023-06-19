@@ -30,7 +30,7 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
     const target = name.split('.').reduce((target, p) => (target as any)[p], catalogue.value) as unknown as BaseObjectConstructor
     if (!target) {
       // TODO(enpitsulin): error logger
-      throw new Error(`${name} is undefined`)
+      console.error(`${name} is undefined`)
     }
     const instance = Reflect.construct(target, args)
     return instance
@@ -41,86 +41,104 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
     if (isInstanceof(parent, Map) && !map)
       map = parent as unknown as Map
 
-    if (isInstanceof(parent, Map) && isInstanceof(el, BaseLayer))
+    if (isInstanceof(parent, Map) && isInstanceof(el, BaseLayer)) {
       parent.addLayer(el)
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.removeLayer(el)
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
 
-    if (isInstanceof(parent, Layer) && isInstanceof(el, Source))
+    if (isInstanceof(parent, Layer) && isInstanceof(el, Source)) {
       parent.setSource(el)
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.setSource()
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
 
-    if (isInstanceof(parent, LayerGroup) && isInstanceof(el, Layer))
+    if (isInstanceof(parent, LayerGroup) && isInstanceof(el, Layer)) {
       parent.getLayers().push(el)
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.getLayers().remove(el)
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
 
-    if (isInstanceof(parent, Collection))
+    if (isInstanceof(parent, Collection)) {
       parent.push(el)
-
-    if (isInstanceof(parent, VectorSource) && isInstanceof(el, Feature))
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.remove(el)
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
+    if (isInstanceof(parent, VectorSource) && isInstanceof(el, Feature)) {
       parent.addFeature(el)
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.removeFeature(el)
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
 
-    if (isInstanceof(parent, Feature) && isInstanceof(el, Geometry))
+    if (isInstanceof(parent, Feature) && isInstanceof(el, Geometry)) {
       parent.setGeometry(el)
+      // @ts-expect-error: internal usage
+      el.__removeFn = () => parent.setGeometry(undefined)
+      // @ts-expect-error: internal usage
+      el.parent = parent
+    }
   },
   remove(el) {
+    if (el && '__removeFn' in el)
+      el.__removeFn()
   },
-  patchProp(el, prop, prevValue, nextValue) {
+  patchProp(el, prop, prevValue, nextValue, _isSVG, prevChildren, parentComponent, parentSuspense, unmountChildren) {
     if (prop === 'args')
       return
     if (el && prevValue !== nextValue) {
-      const propSetter = `set${prop.replace(/^\S/, s => s.toUpperCase())}`
-
-      if (Reflect.has(el, propSetter)) {
-        el[propSetter](nextValue)
-      }
-      else if (Reflect.has(el, `${prop}_`)) {
-        // eslint-disable-next-line no-console
-        console.log(`${prop} is private:`, { private: el[`${prop}_`], el, nextValue })
-        if (el[`${prop}_`] !== nextValue)
-          el[`${prop}_`] = nextValue
-      }
-      else if (prop.match(/^on\S/)) {
+      if (prop.match(/^on\S/)) {
         if (!el.hasListener(nextValue)) {
           const eventType = prop.replace(/^on(\S)(.+)$/, (_, $1, $2) => $1.toLowerCase() + $2)
           el.on(eventType as any, nextValue)
         }
       }
       else {
-        console.error(`cant't patch prop ${prop}`)
+        const propSetter = `set${prop.replace(/^\S/, s => s.toUpperCase())}`
+        if (Reflect.has(el, propSetter)) {
+          el[propSetter](nextValue)
+        }
+        else if (Reflect.has(el, `${prop}_`)) {
+          // patch prop by modify private property
+          if (el[`${prop}_`] !== nextValue)
+            el[`${prop}_`] = nextValue
+        }
+        else {
+          console.warn(`[v-layers]: Cant't Patch Prop: ${prop}, this option maybe can\'t changed so might will re-created an instance`)
+        }
       }
     }
   },
-
   parentNode(node) {
     return node?.parent || null
   },
-  createText() {
-    return null
-  },
-  createComment() {
-    return null
-  },
+  createText: () => null,
+  createComment: () => null,
+  setText: () => null,
+  setElementText: () => null,
 
-  setText() {
-
-  },
-
-  setElementText() {
-
-  },
   nextSibling(node) {
-    return node
+    console.error('nextSibling() did\'t implemented yet')
   },
 
-  querySelector() {
+  querySelector: () => null,
+
+  setScopeId: () => {},
+  cloneNode(node) {
+    if (node && 'clone' in node)
+      return node.clone()
     return null
   },
-
-  setScopeId() {
-
-  },
-  cloneNode() {
-    return null
-  },
-
   insertStaticContent() {
-    return [null, null]
+    console.error('insertStaticContent() did\'t implemented yet')
   },
 }
