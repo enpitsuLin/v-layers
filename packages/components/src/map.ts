@@ -1,13 +1,20 @@
-import { Map as OlMap } from 'ol'
+import { Collection, Map as OlMap } from 'ol'
 import { defineComponent, h, ref, shallowRef, watch, watchPostEffect } from '@vue/runtime-core'
 import { createVLayers } from '@v-layers/core'
 
-type MapChildOptions = 'target' | 'layers' | 'controls' | 'interactions' | 'overlays'
+type MapChildOptions = 'target' | 'layers' | 'interactions' | 'overlays'
 
 type MapProps = Omit<NonNullable<ConstructorParameters<typeof OlMap>[0]>, MapChildOptions>
 
 export const VMap = defineComponent<MapProps, { map: OlMap }>({
-  props: ['keyboardEventTarget', 'maxTilesLoading', 'moveTolerance', 'pixelRatio', 'view'] as unknown as undefined,
+  props: [
+    'keyboardEventTarget',
+    'maxTilesLoading',
+    'moveTolerance',
+    'pixelRatio',
+    'view',
+    'control',
+  ] as unknown as undefined,
   setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()
     const map = shallowRef<OlMap>(new OlMap(props))
@@ -39,6 +46,16 @@ export const VMap = defineComponent<MapProps, { map: OlMap }>({
           val.moveTolerance ? map.value.moveTolerance_ = val.moveTolerance : void 0
           // @ts-expect-error: internal properties
           val.pixelRatio ? map.value.pixelRatio_ = pixelRatio : void 0
+
+          if (val.controls) {
+            // @ts-expect-error: internal usage
+            map.value.controls = Array.isArray(val.controls) ? new Collection(val.controls) : val.controls
+            // @ts-expect-error: internal usage
+            map.value.controls.forEach((i) => {
+              if (!i.getMap())
+                i.setMap(map.value)
+            })
+          }
         }
       },
       { deep: true },
