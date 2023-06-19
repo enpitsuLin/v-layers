@@ -6,7 +6,7 @@ type MapChildOptions = 'target' | 'layers' | 'controls' | 'interactions' | 'over
 
 type MapProps = Omit<NonNullable<ConstructorParameters<typeof OlMap>[0]>, MapChildOptions>
 
-export const Map = defineComponent<MapProps, { map: OlMap }>({
+export const VMap = defineComponent<MapProps, { map: OlMap }>({
   props: ['keyboardEventTarget', 'maxTilesLoading', 'moveTolerance', 'pixelRatio', 'view'] as unknown as undefined,
   setup(props, { slots, expose }) {
     const container = ref<HTMLElement>()

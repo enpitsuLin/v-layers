@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import 'ol/ol.css'
 
-import { Layer, Map, Source } from '@v-layers/components'
+import { VLayer, VMap, VSource } from '@v-layers/components'
 import GeoJSON from 'ol/format/GeoJSON'
 import { View } from 'ol'
 import { ref } from 'vue'
@@ -14,7 +14,7 @@ const view = new View({
 })
 
 const source = ref<VectorSource<Polygon | Point>>()
-const mapRef = ref<InstanceType<typeof Map>>()
+const mapRef = ref<InstanceType<typeof VMap>>()
 
 function zoomToSwitzerland() {
   if (!source.value)
@@ -45,11 +45,11 @@ function centerLausanne() {
 <template>
   <div class="mapcontainer">
     <div id="map" class="map">
-      <Map ref="mapRef" :view="view">
-        <Layer.Tile>
-          <Source.OSM />
-        </Layer.Tile>
-        <Layer.Vector
+      <VMap ref="mapRef" :view="view">
+        <VLayer.Tile>
+          <VSource.OSM />
+        </VLayer.Tile>
+        <VLayer.Vector
           :style="{
             'fill-color': 'rgba(255, 255, 255, 0.6)',
             'stroke-width': 1,
@@ -60,12 +60,12 @@ function centerLausanne() {
             'circle-stroke-color': '#319FD3',
           }"
         >
-          <Source.Vector
+          <VSource.Vector
             ref="source" url="https://openlayers.org/en/latest/examples/data/geojson/switzerland.geojson"
             :format="new GeoJSON()"
           />
-        </Layer.Vector>
-      </Map>
+        </VLayer.Vector>
+      </VMap>
     </div>
     <div class="padding-top" />
     <div class="padding-left" />

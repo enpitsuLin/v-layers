@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import 'ol/ol.css'
 
-import { Feature, Geom, Layer, Map, Source } from '@v-layers/components'
+import { VFeature, VGeom, VLayer, VMap, VSource } from '@v-layers/components'
 import { type Feature as OlFeature, View } from 'ol'
 import { useScriptTag } from '@vueuse/core'
 import { ref, unref } from 'vue'
@@ -14,7 +14,7 @@ const view = new View({
   zoom: 2,
 })
 
-const map = ref<InstanceType<typeof Map>>()
+const map = ref<InstanceType<typeof VMap>>()
 const feature = ref<OlFeature<Point>>()
 
 declare const gifler: any
@@ -47,17 +47,17 @@ useScriptTag('https://cdn.jsdelivr.net/npm/gifler@0.1.0/gifler.min.js', () => {
 
 <template>
   <div style="height:300px;width:100%">
-    <Map ref="map" :view="view">
-      <Layer.Tile>
-        <Source.Stamen layer="toner" />
-      </Layer.Tile>
-      <Layer.Vector>
-        <Source.Vector>
-          <Feature ref="feature">
-            <Geom.Point :args="[[0, 0]]" />
-          </Feature>
-        </Source.Vector>
-      </Layer.Vector>
-    </Map>
+    <VMap ref="map" :view="view">
+      <VLayer.Tile>
+        <VSource.Stamen layer="toner" />
+      </VLayer.Tile>
+      <VLayer.Vector>
+        <VSource.Vector>
+          <VFeature ref="feature">
+            <VGeom.Point :args="[[0, 0]]" />
+          </VFeature>
+        </VSource.Vector>
+      </VLayer.Vector>
+    </VMap>
   </div>
 </template>
