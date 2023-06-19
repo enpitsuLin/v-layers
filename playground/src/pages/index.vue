@@ -16,4 +16,11 @@
       pixel location.
     </p>
   </div>
+  <div>
+    <router-link to="/vector-esri">
+      ArcGIS REST Feature Service
+    </router-link>
+    <p>(vector-esri.vue)</p>
+    <p>Example of using an ArcGIS REST Feature Service with a Tile strategy.</p>
+  </div>
 </template>
