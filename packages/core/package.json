@@ -16,7 +16,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.js"
     }
   },
   "main": "./dist/index.cjs",
@@ -25,8 +25,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "peerDependencies": {
     "ol": ">=7.4.0",
@@ -39,8 +39,8 @@
     "@antfu/eslint-config": "^0.39.5",
     "eslint": "^8.43.0",
     "ol": "^7.4.0",
+    "tsup": "^7.0.0",
     "typescript": "^5.1.3",
-    "unbuild": "^1.2.1",
     "vue": "^3.3.4"
   }
 }
