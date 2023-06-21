@@ -7,6 +7,7 @@ import Layer from 'ol/layer/Layer'
 import Source from 'ol/source/Source'
 import VectorSource from 'ol/source/Vector'
 import LayerGroup from 'ol/layer/Group'
+import { Interaction } from 'ol/interaction'
 import { catalogue } from './catalogue'
 import type { BaseObjectConstructor, OlBaseObject } from './types'
 import { isHTMLTag, isInstanceof } from './utils'
@@ -41,12 +42,21 @@ export const option: RendererOptions<OlBaseObject | null, OlBaseObject | null> =
     if (isInstanceof(parent, Map) && !map)
       map = parent as unknown as Map
 
-    if (isInstanceof(parent, Map) && isInstanceof(el, BaseLayer)) {
-      parent.addLayer(el)
-      // @ts-expect-error: internal usage
-      el.__removeFn = () => parent.removeLayer(el)
-      // @ts-expect-error: internal usage
-      el.parent = parent
+    if (isInstanceof(parent, Map)) {
+      if (isInstanceof(el, BaseLayer)) {
+        parent.addLayer(el)
+        // @ts-expect-error: internal usage
+        el.__removeFn = () => parent.removeLayer(el)
+        // @ts-expect-error: internal usage
+        el.parent = parent
+      }
+      else if (isInstanceof(el, Interaction)) {
+        parent.addInteraction(el)
+        // @ts-expect-error: internal usage
+        el.__removeFn = () => parent.removeInteraction(el)
+        // @ts-expect-error: internal usage
+        el.parent = parent
+      }
     }
 
     if (isInstanceof(parent, Layer) && isInstanceof(el, Source)) {

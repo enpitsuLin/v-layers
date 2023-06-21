@@ -1,6 +1,7 @@
 import type { DefineComponent } from '@vue/runtime-core'
 import { type Options as CollectionOptions } from 'ol/Collection'
-import type { AllGeom, AllLayer, AllSource } from './type'
+import { type Options as OverlayOptions } from 'ol/Overlay'
+import type { AllGeom, AllInteraction, AllLayer, AllSource } from './type'
 
 export const VLayer = new Proxy({} as AllLayer, {
   get(_target, p) {
@@ -19,6 +20,14 @@ export const VGeom = new Proxy({} as AllGeom, {
     return `OlGeom.${p.toString()}`
   },
 })
+
+export const VInteraction = new Proxy({} as AllInteraction, {
+  get(_, p) {
+    return `OlInteraction.${p.toString()}`
+  },
+})
+
+export const VOverlay = 'OlOverlay' as unknown as DefineComponent<OverlayOptions>
 
 export const VFeature = 'OlFeature' as unknown as DefineComponent<{}>
 
