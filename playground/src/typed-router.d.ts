@@ -44,6 +44,7 @@ declare module 'vue-router/auto/routes' {
     '/animated-gif': RouteRecordInfo<'/animated-gif', '/animated-gif', Record<never, never>, Record<never, never>>,
     '/attributions': RouteRecordInfo<'/attributions', '/attributions', Record<never, never>, Record<never, never>>,
     '/center': RouteRecordInfo<'/center', '/center', Record<never, never>, Record<never, never>>,
+    '/cog-stretch': RouteRecordInfo<'/cog-stretch', '/cog-stretch', Record<never, never>, Record<never, never>>,
     '/vector-esri': RouteRecordInfo<'/vector-esri', '/vector-esri', Record<never, never>, Record<never, never>>,
   }
 }

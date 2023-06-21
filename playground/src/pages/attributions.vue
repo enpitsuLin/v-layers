@@ -23,9 +23,6 @@ const view = new View({
   center: [0, 0],
   zoom: 2,
 })
-
-function onClick() {
-}
 </script>
 
 <template>
@@ -35,8 +32,5 @@ function onClick() {
         <VSource.OSM />
       </VLayer.Tile>
     </VMap>
-    <button @click="onClick">
-      click
-    </button>
   </div>
 </template>
