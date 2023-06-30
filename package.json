@@ -2,7 +2,7 @@
   "name": "@v-layers/workspace",
   "private": true,
   "version": "1.0.0",
-  "packageManager": "pnpm@8.6.3",
+  "packageManager": "pnpm@8.6.5",
   "description": "",
   "main": "index.js",
   "scripts": {
